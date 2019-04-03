@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Card } from 'react-bootstrap'
-import Post from './Post';
+import Post from './Post'
 
 class Posts extends Component {
   render() {
@@ -24,4 +24,4 @@ function mapStateToProps ({ posts }) {
   }
 }
 
-export default connect(mapStateToProps)(Posts);
+export default connect(mapStateToProps)(Posts)

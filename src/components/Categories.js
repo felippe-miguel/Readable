@@ -26,4 +26,4 @@ function mapStateToProps ({ categories }) {
     }
 }
 
-export default connect(mapStateToProps)(Categories);
+export default connect(mapStateToProps)(Categories)

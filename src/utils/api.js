@@ -8,7 +8,8 @@ if (!token)
 
 const headers = {
   'Accept': 'application/json',
-  'Authorization': token
+  'Authorization': token,
+  'Content-Type': 'application/json',
 }
 
 export const getCategories = () =>
@@ -51,7 +52,7 @@ export const updatePost = (post) => {
 };
 
 export const votePost = (postId, option) => {
-  const body = JSON.stringify({ option });
+  const body = JSON.stringify({ option: option });
 
   return fetch(`${api}/posts/${postId}`, { method: 'POST', headers, body })
     .then(response => response.json());
@@ -60,8 +61,6 @@ export const votePost = (postId, option) => {
 export const deletePost = (postId) => {
   return fetch(`${api}/posts/${postId}`, { method: 'DELETE', headers });
 };
-
-
 
 /* COMMENTS */
 export const getCommentsFromPost = (postId) =>
