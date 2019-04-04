@@ -24,7 +24,7 @@ class Post extends Component {
       option: option
     }))
   }
-
+  
   render() {
     return (
       <Card className='mb-2'>

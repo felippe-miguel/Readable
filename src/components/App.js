@@ -4,6 +4,7 @@ import { handleGetAllPosts, handleGetCategories } from '../actions/shared'
 import Categories from './Categories'
 import { Card, Nav } from 'react-bootstrap'
 import Posts from './Posts'
+import FormPost from './FormPost'
 
 class App extends Component {
   componentDidMount() {
@@ -30,6 +31,7 @@ class App extends Component {
             </div>
             <div className='col-lg-9'>
               <Posts />
+              <FormPost />
             </div>
           </div>
         </Card.Body>
