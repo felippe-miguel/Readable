@@ -1,4 +1,4 @@
-import { RECEIVE_POSTS, VOTE_POST } from '../actions/posts'
+import { RECEIVE_POSTS, VOTE_POST, ADD_POST, DELETE_POST } from '../actions/posts'
 
 export default function posts (state = {}, action) {
     switch (action.type) {
@@ -14,6 +14,20 @@ export default function posts (state = {}, action) {
                     ...state[action.postKey],
                     voteScore: state[action.postKey].voteScore + (action.option === 'upVote' ? 1 : -1)
                 }
+            }
+        case ADD_POST :
+            return {
+                ...state,
+                [Object.keys(state).length]: {
+                    ...action.post
+                }
+            }
+        case DELETE_POST :
+            let newState = Object.assign(state)
+            delete newState[action.postKey]
+
+            return {
+                ...newState,
             }
         default :
             return state

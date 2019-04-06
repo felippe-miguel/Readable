@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { Card, Form, Col, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { idGenerator } from '../utils/helpers'
+import { handleAddNewPost } from '../actions/posts'
 
 class FormPost extends Component {
   state = {
+    validated: false,
     title: '',
     body: '',
     author: '',
-    categorie: '',
+    category: '',
     post: null
   }
 
@@ -35,56 +38,74 @@ class FormPost extends Component {
     }))
   }
 
-  handleCategorieChange = (e) => {
-    const categorie = e.target.value
+  handleCategoryChange = (e) => {
+    const category = e.target.value
 
     this.setState(() => ({
-      categorie
+      category
     }))
   }
 
   handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    const form = e.currentTarget
+    this.setState({ validated: true });
 
-    // todo: Add post to store
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else {
+      const { dispatch } = this.props
 
-    console.log('New post')
-    console.log(this.state)
-    console.log(this.props)
+      dispatch(handleAddNewPost({
+        id: idGenerator(),
+        title: this.state.title,
+        body: this.state.body,
+        author: this.state.author,
+        category: this.state.category,
+        timestamp: Date.now(),
+      }))
 
-    this.setState(() => ({
-      title: '',
-      body: '',
-      author: '',
-      categorie: '',
-      post: null
-    }))
+      this.setState(() => ({
+        validated: false,
+        title: '',
+        body: '',
+        author: '',
+        category: '',
+        post: null
+      }))
+    }
   }
 
   render() {
-    const { title, body, author, categorie } = this.state
+    const { title, body, author, category, validated } = this.state
 
     return (
       <Card className='mb-2'>
         <Card.Body>
-          <Card.Title>Form Post</Card.Title>
-          <Form onSubmit={this.handleSubmit}>
+          <Card.Title>New Post</Card.Title>
+          <Form noValidate validated={validated} onSubmit={this.handleSubmit}>
             <Form.Row>
               <Form.Group as={Col} controlId="Title">
-                <Form.Control onChange={this.handleTitleChange} value={title} type="text" placeholder="Title" />
+                <Form.Control required onChange={this.handleTitleChange} value={title} type="text" placeholder="Title" />
+                <Form.Control.Feedback type="invalid">Please, choose a title</Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="Body">
-                <Form.Control onChange={this.handleBodyChange} value={body} as="textarea" rows="3" placeholder="Body"/>
+                <Form.Control required onChange={this.handleBodyChange} value={body} as="textarea" rows="3" placeholder="Body"/>
+                <Form.Control.Feedback type="invalid">Please, say something</Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="Author">
-                <Form.Control onChange={this.handleAuthorChange} value={author} type="text" placeholder="Author" />
+                <Form.Control required onChange={this.handleAuthorChange} value={author} type="text" placeholder="Author" />
+                <Form.Control.Feedback type="invalid">Please, provide a name</Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} controlId="Categorie">
-                <Form.Control value={categorie} onChange={this.handleCategorieChange} as="select">
+              <Form.Group as={Col} controlId="Category">
+                <Form.Control required value={category} onChange={this.handleCategoryChange} as="select">
                   <option value=''>Categories</option>
                   {Object.keys(this.props.categories).map((key) => 
                     <option key={key} value={this.props.categories[key].name}>
@@ -92,6 +113,8 @@ class FormPost extends Component {
                     </option>
                   )}
                 </Form.Control>
+                <Form.Control.Feedback type="invalid">Please, choose a categorie</Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
             <Form.Row>
