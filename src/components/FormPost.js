@@ -73,6 +73,8 @@ class FormPost extends Component {
         category: '',
         post: null
       }))
+
+      this.props.history.push('/')
     }
   }
 

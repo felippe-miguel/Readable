@@ -11,8 +11,8 @@ class Categories extends Component {
           <ListGroup.Item as="li" key='all-categorie' active>
             All
           </ListGroup.Item>
-          {this.props.categorieIds.map((id) => (
-            <ListGroup.Item as="li" key={`${id}-categorie`}>Categorie ID: {id}</ListGroup.Item> 
+          {this.props.categories.map((categorie) => (
+            <ListGroup.Item as="li" key={`${categorie.name}-categorie`}>{categorie.name}</ListGroup.Item> 
           ))}
         </ListGroup>
       </Card>
@@ -22,7 +22,7 @@ class Categories extends Component {
 
 function mapStateToProps ({ categories }) {
     return {
-        categorieIds: Object.keys(categories)
+        categories: Object.values(categories)
     }
 }
 

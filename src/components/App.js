@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleGetAllPosts, handleGetCategories } from '../actions/shared'
 import Categories from './Categories'
-import { Card, Nav } from 'react-bootstrap'
+import NavApp from './NavApp'
+import { Card, Col, Row } from 'react-bootstrap'
 import Posts from './Posts'
 import FormPost from './FormPost'
 
@@ -14,28 +16,28 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <Nav variant="tabs" defaultActiveKey="/home">
-          <Nav.Item>
-            <Nav.Link href="/home">Active</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="link-1">Option 2</Nav.Link>
-          </Nav.Item>
-        </Nav>
-        
+      <Router>
         <Card.Body>
-          <div className='row'>
-            <div className='col-lg-3 mb-2'>
-              <Categories />
-            </div>
-            <div className='col-lg-9'>
-              <Posts />
-              <FormPost />
-            </div>
-          </div>
+          <Route className='mb-2' component={NavApp} />
+          <Row className='mt-2'>
+            <Route path='/' exact render={() =>
+              <Fragment>
+                <Col lg='3' className='mb-2'>
+                  <Categories />
+                </Col>
+                <Col lg='9'>
+                  <Posts />
+                </Col>
+              </Fragment>
+            }/>
+            <Route path='/new-post' render={({ history }) => 
+              <Col>
+                <FormPost history={history}/>
+              </Col>
+            }/>
+          </Row>
         </Card.Body>
-      </div>
+      </Router>
     )
   }
 }
