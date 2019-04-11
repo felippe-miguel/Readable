@@ -7,11 +7,17 @@ import { handleAddNewPost } from '../actions/posts'
 class FormPost extends Component {
   state = {
     validated: false,
-    title: '',
+    title: this.props.post ? this.props.post.title : '',
     body: '',
     author: '',
     category: '',
     post: null
+  }
+
+  componentDidMount () {
+    this.setState(() => ({
+      title: '10'
+    }))
   }
 
   handleTitleChange = (e) => {
@@ -80,15 +86,27 @@ class FormPost extends Component {
 
   render() {
     const { title, body, author, category, validated } = this.state
-
+    
     return (
       <Card className='mb-2'>
+        <Card.Header>
+          <Card.Title>
+            {this.props.postId
+              ? 'Edit post'
+              : 'New Post'
+            }
+          </Card.Title>
+        </Card.Header>
         <Card.Body>
-          <Card.Title>New Post</Card.Title>
           <Form noValidate validated={validated} onSubmit={this.handleSubmit}>
             <Form.Row>
               <Form.Group as={Col} controlId="Title">
-                <Form.Control required onChange={this.handleTitleChange} value={title} type="text" placeholder="Title" />
+                <Form.Control 
+                required 
+                onChange={this.handleTitleChange} 
+                value={title} 
+                type="text" 
+                placeholder="Title" />
                 <Form.Control.Feedback type="invalid">Please, choose a title</Form.Control.Feedback>
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
@@ -121,7 +139,7 @@ class FormPost extends Component {
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="button-submit">
-                <Button variant="primary" type="submit">
+                <Button variant="outline-primary" type="submit">
                   Submit
                 </Button>
               </Form.Group>
@@ -133,9 +151,14 @@ class FormPost extends Component {
   }
 }
 
-function mapStateToProps ({ categories }) {
+function mapStateToProps ({ categories, posts }, { match }) {
+  const postId = match.params.id
+  const post = posts[postId]
+  
   return {
-    categories: categories
+    categories,
+    postId,
+    post
   }
 }
 

@@ -20,19 +20,19 @@ class App extends Component {
         <Card.Body>
           <Route className='mb-2' component={NavApp} />
           <Row className='mt-2'>
-            <Route path='/' exact render={() =>
+            <Route path={['/','/react','/redux','/udacity']} exact  render={({ location }) =>
               <Fragment>
                 <Col lg='3' className='mb-2'>
-                  <Categories />
+                  <Categories location={location}/>
                 </Col>
                 <Col lg='9'>
-                  <Posts />
+                  <Posts location={location}/>
                 </Col>
               </Fragment>
             }/>
-            <Route path='/new-post' render={({ history }) => 
+            <Route path={['/new-post', '/:id/edit']} render={({ history, match }) => 
               <Col>
-                <FormPost history={history}/>
+                <FormPost history={history} match={match}/>
               </Col>
             }/>
           </Row>

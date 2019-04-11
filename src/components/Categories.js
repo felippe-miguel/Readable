@@ -3,16 +3,30 @@ import { connect } from 'react-redux'
 import { Card, ListGroup } from 'react-bootstrap'
 
 class Categories extends Component {
+  handleSelect = (e) => {
+    console.log(e)
+  }
+  
   render() {
     return (
       <Card>
-        <Card.Header>Categories</Card.Header>
-        <ListGroup as="ul" variant='flush'>
-          <ListGroup.Item as="li" key='all-categorie' active>
-            All
-          </ListGroup.Item>
+        <Card.Header>
+          <Card.Title>Categories</Card.Title>
+        </Card.Header>
+        <ListGroup
+          defaultActiveKey='/react'
+          activeKey={this.props.location.pathname}
+          onSelect={this.handleSelect}
+          variant='flush'
+        >
           {this.props.categories.map((categorie) => (
-            <ListGroup.Item as="li" key={`${categorie.name}-categorie`}>{categorie.name}</ListGroup.Item> 
+            <ListGroup.Item 
+              action
+              href={`/${categorie.name}`}
+              key={`${categorie.name}-categorie`}
+            >
+              {categorie.name}
+            </ListGroup.Item> 
           ))}
         </ListGroup>
       </Card>
@@ -20,10 +34,11 @@ class Categories extends Component {
   }
 }
 
-function mapStateToProps ({ categories }) {
-    return {
-        categories: Object.values(categories)
-    }
+function mapStateToProps ({ categories }, { location }) {
+  return {
+    categories: Object.values(categories),
+    location
+  }
 }
 
 export default connect(mapStateToProps)(Categories)

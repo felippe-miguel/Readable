@@ -34,23 +34,41 @@ class Post extends Component {
       postKey: parseInt(indexStore)
     }))
   }
+
+  handleEdit = (e) => {
+    e.preventDefault()
+
+    console.log('To Do: Edit')
+  }
   
   render() {
     return (
       <Card className='mb-2'>
-        <Card.Body>
+        <Card.Header>
           <Card.Title>
             <Row>
               <Col>{this.props.post.title}</Col>
               <Col md="auto">
-                <Button size="sm" variant="danger" onClick={this.handleDelete}>
+                <Button 
+                  className='mr-1' 
+                  size="sm" 
+                  variant="outline-info" 
+                  onClick={this.handleEdit}
+                >
+                  Edit post
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline-danger" 
+                  onClick={this.handleDelete}
+                >
                   <MdDelete />
                 </Button>
               </Col>
-
             </Row>
-          
           </Card.Title>
+        </Card.Header>
+        <Card.Body>
           <Card.Text>{this.props.post.body}</Card.Text>
           
           <Row className='text-muted'>
@@ -64,10 +82,18 @@ class Post extends Component {
               <MdComment /> {this.props.post.commentCount}
             </Col>
             <Col md="auto" >
-                <Button size="sm" variant="primary" className='mr-1' onClick={this.handleVoteScoreUp}>
+                <Button size="sm" 
+                  variant="outline-success" 
+                  className='mr-1' 
+                  onClick={this.handleVoteScoreUp}
+                >
                   <MdThumbUp />
                 </Button>
-                <Button size="sm" variant="warning" className='mr-3' onClick={this.handleVoteScoreDown}>
+                <Button size="sm" 
+                  variant="outline-warning" 
+                  className='mr-3' 
+                  onClick={this.handleVoteScoreDown}
+                >
                   <MdThumbDown />
                 </Button>
                   {this.props.post.voteScore}
