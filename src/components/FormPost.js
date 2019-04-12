@@ -2,22 +2,26 @@ import React, { Component } from 'react'
 import { Card, Form, Col, Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { idGenerator } from '../utils/helpers'
-import { handleAddNewPost } from '../actions/posts'
+import { handleAddNewPost, handleUpdatePost } from '../actions/posts'
 
 class FormPost extends Component {
   state = {
     validated: false,
-    title: this.props.post ? this.props.post.title : '',
+    title: '',
     body: '',
     author: '',
     category: '',
-    post: null
   }
 
-  componentDidMount () {
-    this.setState(() => ({
-      title: '10'
-    }))
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.post) {
+      this.setState(() => ({
+        title: nextProps.post.title,
+        body: nextProps.post.body,
+        author: nextProps.post.author,
+        category: nextProps.post.category,
+      }))
+    }
   }
 
   handleTitleChange = (e) => {
@@ -62,36 +66,49 @@ class FormPost extends Component {
     } else {
       const { dispatch } = this.props
 
-      dispatch(handleAddNewPost({
-        id: idGenerator(),
-        title: this.state.title,
-        body: this.state.body,
-        author: this.state.author,
-        category: this.state.category,
-        timestamp: Date.now(),
-      }))
-
-      this.setState(() => ({
-        validated: false,
-        title: '',
-        body: '',
-        author: '',
-        category: '',
-        post: null
-      }))
+      if (this.props.post) {
+        this.handleEdit(dispatch)
+      } else {
+        this.handleCreate(dispatch)
+      }
 
       this.props.history.push('/')
     }
   }
 
+  handleEdit = (dispatch) => {
+    dispatch(handleUpdatePost({
+      post: {
+        ...this.props.post,
+        title: this.state.title,
+        body: this.state.body,
+        author: this.state.author,
+        category: this.state.category,
+        timestamp: Date.now()
+      }, 
+      postKey: this.props.match.params.id
+    }))
+  }
+
+  handleCreate = (dispatch) => {
+    dispatch(handleAddNewPost({
+      id: idGenerator(),
+      title: this.state.title,
+      body: this.state.body,
+      author: this.state.author,
+      category: this.state.category,
+      timestamp: Date.now(),
+    }))
+  }
+
   render() {
     const { title, body, author, category, validated } = this.state
-    
+
     return (
       <Card className='mb-2'>
         <Card.Header>
           <Card.Title>
-            {this.props.postId
+            {this.props.post
               ? 'Edit post'
               : 'New Post'
             }
@@ -151,13 +168,11 @@ class FormPost extends Component {
   }
 }
 
-function mapStateToProps ({ categories, posts }, { match }) {
-  const postId = match.params.id
-  const post = posts[postId]
-  
+function mapStateToProps ({ categories, posts }, {match}) {
+  const post = posts[match.params.id]
+
   return {
     categories,
-    postId,
     post
   }
 }

@@ -16,29 +16,29 @@ class Post extends Component {
   }
 
   handleVoteScore = (option) => {
-    const { dispatch, post, indexStore } = this.props
+    const { dispatch, post, id } = this.props
 
     dispatch(handleUpdateVotePost({
       postId: post.id,
-      postKey: indexStore,
+      postKey: id,
       option: option
     }))
   }
 
   handleDelete = (e) => {
     e.preventDefault()
-    const { dispatch, indexStore } = this.props
+    const { dispatch, id } = this.props
     
     dispatch(handleDeletePost({
       postId: this.props.post.id,
-      postKey: parseInt(indexStore)
+      postKey: parseInt(id)
     }))
   }
 
   handleEdit = (e) => {
     e.preventDefault()
 
-    console.log('To Do: Edit')
+    this.props.history.push('/' + this.props.id + '/edit')
   }
   
   render() {
@@ -53,7 +53,8 @@ class Post extends Component {
                   className='mr-1' 
                   size="sm" 
                   variant="outline-info" 
-                  onClick={this.handleEdit}
+                  href={`/${this.props.id}/edit`}
+                  //onClick={this.handleEdit}
                 >
                   Edit post
                 </Button>
@@ -110,9 +111,10 @@ class Post extends Component {
 
 function mapStateToProps ({ posts }, { id }) {
   const post = posts[id]
+
   return {
-    indexStore: id,
-    post: post
+    id,
+    post
   }
 }
 

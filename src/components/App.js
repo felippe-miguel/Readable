@@ -9,9 +9,9 @@ import Posts from './Posts'
 import FormPost from './FormPost'
 
 class App extends Component {
-  componentDidMount() {
-    this.props.dispatch(handleGetCategories())
+  componentWillMount() {
     this.props.dispatch(handleGetAllPosts())
+    this.props.dispatch(handleGetCategories())
   }
 
   render() {
@@ -20,19 +20,22 @@ class App extends Component {
         <Card.Body>
           <Route className='mb-2' component={NavApp} />
           <Row className='mt-2'>
-            <Route path={['/','/react','/redux','/udacity']} exact  render={({ location }) =>
+            <Route path={['/','/react','/redux','/udacity']} exact  render={({ history, location }) =>
               <Fragment>
                 <Col lg='3' className='mb-2'>
                   <Categories location={location}/>
                 </Col>
                 <Col lg='9'>
-                  <Posts location={location}/>
+                  <Posts location={location} history={history}/>
                 </Col>
               </Fragment>
             }/>
             <Route path={['/new-post', '/:id/edit']} render={({ history, match }) => 
               <Col>
-                <FormPost history={history} match={match}/>
+                <FormPost 
+                  history={history} 
+                  match={match}
+                />
               </Col>
             }/>
           </Row>

@@ -1,4 +1,4 @@
-import { RECEIVE_POSTS, VOTE_POST, ADD_POST, DELETE_POST } from '../actions/posts'
+import { RECEIVE_POSTS, VOTE_POST, UPDATE_POST, ADD_POST, DELETE_POST } from '../actions/posts'
 
 export default function posts (state = {}, action) {
     switch (action.type) {
@@ -13,6 +13,13 @@ export default function posts (state = {}, action) {
                 [action.postKey]: {
                     ...state[action.postKey],
                     voteScore: state[action.postKey].voteScore + (action.option === 'upVote' ? 1 : -1)
+                }
+            }
+        case UPDATE_POST :
+            return {
+                ...state,
+                [action.postKey]: {
+                    ...action.post,
                 }
             }
         case ADD_POST :

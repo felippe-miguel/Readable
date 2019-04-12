@@ -1,9 +1,10 @@
-import { votePost, addPost, deletePost } from '../utils/api'
+import { votePost, addPost, deletePost, updatePost } from '../utils/api'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const VOTE_POST = 'VOTE_POST'
 export const ADD_POST = 'ADD_POST'
 export const DELETE_POST = 'DELETE_POST'
+export const UPDATE_POST = 'UPDATE_POST'
 
 function disablePost (postKey) {
     return {
@@ -32,6 +33,22 @@ export function handleAddNewPost (data) {
         return addPost(
             data
         ).then((post) => dispatch(addNewPost(post)))
+    }
+}
+
+function editPost (post, postKey) {
+    return {
+        type: UPDATE_POST,
+        post,
+        postKey
+    }
+}
+
+export function handleUpdatePost (data) {
+    return (dispatch) => {
+        return updatePost(
+            data.post
+        ).then(() => dispatch(editPost(data.post, data.postKey)))
     }
 }
 

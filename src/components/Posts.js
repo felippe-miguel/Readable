@@ -24,7 +24,7 @@ class Posts extends Component {
         </Card.Header>
         <Card.Body>
             {this.props.postsIds.map((id) => (
-              <Post id={id} key={id}/>
+              <Post id={id} key={id} history={this.props.history}/>
             ))}
         </Card.Body>
       </Card>
