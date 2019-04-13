@@ -5,6 +5,8 @@ export const VOTE_POST = 'VOTE_POST'
 export const ADD_POST = 'ADD_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const UPDATE_POST = 'UPDATE_POST'
+export const COMMENT_POST = 'COMMENT_POST'
+export const DELETE_COMMENT_POST = 'DELETE_COMMENT_POST'
 
 function disablePost (postKey) {
     return {
@@ -76,5 +78,31 @@ export function handleUpdateVotePost (data) {
             console.warn('Error in handleUpdateVotePost: ', e)
             alert('Ops! Something is wrong!')
         })
+    }
+}
+
+function commentPost (postKey) {
+    return {
+        type: COMMENT_POST,
+        postKey
+    }
+}
+
+export function handleCommentPost (postKey) {
+    return (dispatch) => {
+        return dispatch(commentPost(postKey))
+    }
+}
+
+function deleteCommentPost (postKey) {
+    return {
+        type: DELETE_COMMENT_POST,
+        postKey
+    }
+}
+
+export function handleDeleteCommentPost (postKey) {
+    return (dispatch) => {
+        return dispatch(deleteCommentPost(postKey))
     }
 }

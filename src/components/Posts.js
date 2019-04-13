@@ -10,7 +10,7 @@ class Posts extends Component {
         <Card.Header>
           <Row>
             <Col>
-              <Card.Title>Posts</Card.Title>
+              <Card.Title className='mb-0'>Posts</Card.Title>
             </Col>
           
             <Col md="auto">

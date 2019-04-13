@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Card, Button, Col, Row} from 'react-bootstrap'
 import { MdThumbUp, MdThumbDown, MdComment, MdBookmarkBorder, MdDelete } from "react-icons/md"
 import { handleUpdateVotePost, handleDeletePost } from '../actions/posts'
+import { Link } from 'react-router-dom'
 
 class Post extends Component {
   handleVoteScoreUp = (e) => {
@@ -34,27 +35,20 @@ class Post extends Component {
       postKey: parseInt(id)
     }))
   }
-
-  handleEdit = (e) => {
-    e.preventDefault()
-
-    this.props.history.push('/' + this.props.id + '/edit')
-  }
   
   render() {
     return (
       <Card className='mb-2'>
         <Card.Header>
-          <Card.Title>
+          <Card.Title className='mb-0'>
             <Row>
-              <Col>{this.props.post.title}</Col>
+              <Col><Link to={`/post/${this.props.id}`}>{this.props.post.title}</Link></Col>
               <Col md="auto">
                 <Button 
                   className='mr-1' 
                   size="sm" 
                   variant="outline-info" 
-                  href={`/${this.props.id}/edit`}
-                  //onClick={this.handleEdit}
+                  href={`/post/${this.props.id}/edit`}
                 >
                   Edit post
                 </Button>

@@ -6,10 +6,11 @@ import Categories from './Categories'
 import NavApp from './NavApp'
 import { Card, Col, Row } from 'react-bootstrap'
 import Posts from './Posts'
-import FormPost from './FormPost'
+import PostPage from './PostPage'
+import PostForm from './PostForm'
 
 class App extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.dispatch(handleGetAllPosts())
     this.props.dispatch(handleGetCategories())
   }
@@ -23,21 +24,22 @@ class App extends Component {
             <Route path={['/','/react','/redux','/udacity']} exact  render={({ history, location }) =>
               <Fragment>
                 <Col lg='3' className='mb-2'>
-                  <Categories location={location}/>
+                  <Categories location={location} history={history}/>
                 </Col>
                 <Col lg='9'>
                   <Posts location={location} history={history}/>
                 </Col>
               </Fragment>
             }/>
-            <Route path={['/new-post', '/:id/edit']} render={({ history, match }) => 
+            <Route path={['/new-post', '/post/:id/edit']} exact render={({ history, match }) => 
               <Col>
-                <FormPost 
+                <PostForm 
                   history={history} 
                   match={match}
                 />
               </Col>
             }/>
+            <Route path={'/post/:id'} exact component={PostPage}/>
           </Row>
         </Card.Body>
       </Router>

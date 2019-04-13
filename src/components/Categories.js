@@ -4,14 +4,13 @@ import { Card, ListGroup } from 'react-bootstrap'
 
 class Categories extends Component {
   handleSelect = (e) => {
-    console.log(e)
   }
   
   render() {
     return (
       <Card>
         <Card.Header>
-          <Card.Title>Categories</Card.Title>
+          <Card.Title className='mb-0'>Categories</Card.Title>
         </Card.Header>
         <ListGroup
           defaultActiveKey='/react'

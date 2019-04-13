@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { idGenerator } from '../utils/helpers'
 import { handleAddNewPost, handleUpdatePost } from '../actions/posts'
 
-class FormPost extends Component {
+class PostForm extends Component {
   state = {
     validated: false,
     title: '',
@@ -107,7 +107,7 @@ class FormPost extends Component {
     return (
       <Card className='mb-2'>
         <Card.Header>
-          <Card.Title>
+          <Card.Title className='mb-0'>
             {this.props.post
               ? 'Edit post'
               : 'New Post'
@@ -177,4 +177,4 @@ function mapStateToProps ({ categories, posts }, {match}) {
   }
 }
 
-export default connect(mapStateToProps)(FormPost)
+export default connect(mapStateToProps)(PostForm)
