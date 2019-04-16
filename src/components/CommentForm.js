@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Form, Col, Button } from 'react-bootstrap'
-import { addComment } from '../utils/api'
+import { addComment, getComment, updateComment } from '../utils/api'
 import { idGenerator } from '../utils/helpers'
 
 class CommentForm extends Component {
@@ -8,6 +8,19 @@ class CommentForm extends Component {
     validated: false,
     body: '',
     author: '',
+    comment: null,
+  }
+
+  componentDidMount = () => {
+    if (this.props.match) {
+      getComment(this.props.match.params.id).then((comment) => {
+        this.setState(() => ({
+          comment: comment,
+          body: comment.body,
+          author: comment.author,
+        }))
+      })
+    }
   }
 
   handleBodyChange = (e) => {
@@ -34,13 +47,25 @@ class CommentForm extends Component {
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else {
-      this.handleCreate()
-      //this.props.history.push('/')
+      if (this.state.comment) {
+        this.handleEdit()
+      } else {
+        this.handleCreate()
+      }
     }
   }
 
   handleEdit = () => {
-   
+    const comment = {
+      ...this.state.comment,
+      body: this.state.body,
+      author: this.state.author,
+      timestamp: Date.now()
+    }
+
+    updateComment(comment).then(() => {
+      this.props.history.push(`/${this.props.match.params.category}/${this.props.match.params.postId}`)
+    })
   }
 
   handleCreate = () => {
@@ -57,13 +82,13 @@ class CommentForm extends Component {
   }
 
   render() {
-    const { body, author, validated } = this.state
+    const { body, author, validated, comment } = this.state
 
     return (
       <Card className='mb-2'>
         <Card.Header>
           <Card.Title className='mb-0'>
-            {this.props.comment
+            {comment
               ? 'Edit comment'
               : 'New comment'
             }

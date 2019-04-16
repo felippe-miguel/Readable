@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Card, Button, Col, Row} from 'react-bootstrap'
-import { MdThumbUp, MdThumbDown, MdComment, MdBookmarkBorder, MdDelete } from "react-icons/md"
+import { MdThumbUp, MdThumbDown, MdComment, MdBookmarkBorder, MdDelete, MdModeEdit } from "react-icons/md"
 import { handleUpdateVotePost, handleDeletePost } from '../actions/posts'
 import { Link } from 'react-router-dom'
 
@@ -34,23 +34,28 @@ class Post extends Component {
       postId: this.props.post.id,
       postKey: parseInt(id)
     }))
+
+    if (this.props.match) {
+      this.props.history.push(`/${this.props.match.params.category}`)
+    } 
   }
   
   render() {
+    const { post } = this.props
     return (
       <Card className='mb-2'>
         <Card.Header>
           <Card.Title className='mb-0'>
             <Row>
-              <Col><Link to={`/post/${this.props.id}`}>{this.props.post.title}</Link></Col>
+              <Col><Link to={`/${post.category}/${this.props.id}`}>{post.title}</Link></Col>
               <Col md="auto">
                 <Button 
                   className='mr-1' 
                   size="sm" 
                   variant="outline-info" 
-                  href={`/post/${this.props.id}/edit`}
+                  href={`/${post.category}/${this.props.id}/edit`}
                 >
-                  Edit post
+                  <MdModeEdit />
                 </Button>
                 <Button 
                   size="sm" 
@@ -64,17 +69,17 @@ class Post extends Component {
           </Card.Title>
         </Card.Header>
         <Card.Body>
-          <Card.Text>{this.props.post.body}</Card.Text>
+          <Card.Text>{post.body}</Card.Text>
           
           <Row className='text-muted'>
             <Col >
-              Posted by @{this.props.post.author}
+              Posted by @{post.author}
             </Col>
             <Col md="auto" >
-              <MdBookmarkBorder /> {this.props.post.category}
+              <MdBookmarkBorder /> {post.category}
             </Col>
             <Col md="auto" >
-              <MdComment /> {this.props.post.commentCount}
+              <MdComment /> {post.commentCount}
             </Col>
             <Col md="auto" >
                 <Button size="sm" 
@@ -91,10 +96,10 @@ class Post extends Component {
                 >
                   <MdThumbDown />
                 </Button>
-                  {this.props.post.voteScore}
+                  {post.voteScore}
             </Col>
             <Col md="auto" >
-              {new Intl.DateTimeFormat('pt-BR', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(this.props.post.timestamp)}
+              {new Intl.DateTimeFormat('pt-BR', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(post.timestamp)}
             </Col>
           </Row>
         </Card.Body>

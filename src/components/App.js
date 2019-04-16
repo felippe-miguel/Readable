@@ -8,6 +8,7 @@ import { Card, Col, Row } from 'react-bootstrap'
 import Posts from './Posts'
 import PostPage from './PostPage'
 import PostForm from './PostForm'
+import CommentForm from './CommentForm';
 
 class App extends Component {
   componentDidMount() {
@@ -31,7 +32,7 @@ class App extends Component {
                 </Col>
               </Fragment>
             }/>
-            <Route path={['/new-post', '/post/:id/edit']} exact render={({ history, match }) => 
+            <Route path={['/new-post', '/:category/:id/edit']} exact render={({ history, match }) => 
               <Col>
                 <PostForm 
                   history={history} 
@@ -39,7 +40,15 @@ class App extends Component {
                 />
               </Col>
             }/>
-            <Route path={'/post/:id'} exact component={PostPage}/>
+            <Route path={'/:category/:id'} exact component={PostPage}/>
+            <Route path={'/:category/:postId/comment/:id/edit'} exact render={({ history, match }) => 
+              <Col>
+                <CommentForm 
+                  history={history} 
+                  match={match}
+                />
+              </Col>
+            }/>
           </Row>
         </Card.Body>
       </Router>

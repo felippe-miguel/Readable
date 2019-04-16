@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
 import { Card, Button, Col, Row} from 'react-bootstrap'
-import { MdThumbUp, MdThumbDown, MdDelete } from "react-icons/md"
+import { MdThumbUp, MdThumbDown, MdDelete, MdModeEdit } from "react-icons/md"
 import { deleteComment, voteComment } from '../utils/api'
 
 class Comment extends Component {
+  componentDidMount = () => {
+    if (this.props.postKey) {
+      
+    }
+  }
+
   handleVoteScoreUp = (e) => {
     e.preventDefault()
     this.handleVoteScore('upVote')
@@ -30,13 +36,23 @@ class Comment extends Component {
   }
 
   render() {
+    const { comment } = this.props
+
     return (
       <Card className='mb-2'>
         <Card.Header>
           <Card.Title className='mb-0'>
             <Row>
-              <Col>@{this.props.comment.author}</Col>
+              <Col>@{comment.author}</Col>
               <Col md="auto">
+                <Button 
+                  className='mr-1' 
+                  size="sm" 
+                  variant="outline-info" 
+                  href={`/${this.props.match.params.category}/${this.props.postKey}/comment/${comment.id}/edit`}
+                >
+                  <MdModeEdit />
+                </Button>
                 <Button 
                   size="sm" 
                   variant="outline-danger" 
@@ -49,7 +65,7 @@ class Comment extends Component {
           </Card.Title>
         </Card.Header>
         <Card.Body>
-          <Card.Text>{this.props.comment.body}</Card.Text>
+          <Card.Text>{comment.body}</Card.Text>
           
           <Row className='text-muted'>
             <Col >
@@ -69,10 +85,10 @@ class Comment extends Component {
               >
                 <MdThumbDown />
               </Button>
-                {this.props.comment.voteScore}
+                {comment.voteScore}
             </Col>
             <Col md="auto" >
-              {new Intl.DateTimeFormat('pt-BR', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(this.props.comment.timestamp)}
+              {new Intl.DateTimeFormat('pt-BR', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(comment.timestamp)}
             </Col>
           </Row>
         </Card.Body>

@@ -103,8 +103,10 @@ class Comments extends Component {
               onVote={(commentId, option) => {
                 this.handleVote(commentId, option)
               }}
+              postKey={this.props.postKey}
               comment={comment} 
               key={comment.id} 
+              match={this.props.match}
             />
           ))}
         </Card.Body>

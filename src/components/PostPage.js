@@ -18,8 +18,8 @@ class PostPage extends Component {
             {(this.props.post)
               ? 
               <Fragment>
-                <Post id={this.props.id} history={this.props.history}/>
-                <Comments postKey={this.props.id} id={this.props.post.id}/>
+                <Post id={this.props.id} history={this.props.history} match={this.props.match}/>
+                <Comments postKey={this.props.id} id={this.props.post.id} match={this.props.match}/>
               </Fragment>
               : 'Post não encontrado'
             }
