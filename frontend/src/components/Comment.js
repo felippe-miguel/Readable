@@ -4,12 +4,6 @@ import { MdThumbUp, MdThumbDown, MdDelete, MdModeEdit } from "react-icons/md"
 import { deleteComment, voteComment } from '../utils/api'
 
 class Comment extends Component {
-  componentDidMount = () => {
-    if (this.props.postKey) {
-      
-    }
-  }
-
   handleVoteScoreUp = (e) => {
     e.preventDefault()
     this.handleVoteScore('upVote')

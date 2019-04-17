@@ -1,3 +1,9 @@
+## Readable
+
+Readable é um aplicativo onde você pode fazer postagens, comentar e votar em outras postagens.
+
+Foi criado utilizando as tecnologias React/Redux para o curso React Nanodegree da Udacity.
+
 ## Instruções para instalação
 
 Após efetuar o download do projeto, siga as seguintes instruções:

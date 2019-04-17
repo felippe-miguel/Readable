@@ -3,9 +3,12 @@ import { RECEIVE_POSTS, VOTE_POST, UPDATE_POST, ADD_POST, DELETE_POST, DELETE_CO
 export default function posts (state = {}, action) {
     switch (action.type) {
         case RECEIVE_POSTS :
+            let posts = {}
+            action.posts.map((post) => posts[post.id] = post)
+
             return {
                 ...state,
-                ...action.posts
+                ...posts
             }
         case VOTE_POST :
             return {
@@ -25,7 +28,7 @@ export default function posts (state = {}, action) {
         case ADD_POST :
             return {
                 ...state,
-                [Object.keys(state).length]: {
+                [action.post.id]: {
                     ...action.post
                 }
             }

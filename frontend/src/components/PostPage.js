@@ -1,33 +1,31 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Card, Col } from 'react-bootstrap'
 import Post from './Post'
 import Comments from './Comments'
 
-class PostPage extends Component {
-  render() {
-    return (
-      <Col>
-        <Card className='mb-2'>
-          <Card.Header>
-            <Card.Title className='mb-0'>
-              Post details
-            </Card.Title>
-          </Card.Header>
-          <Card.Body>
-            {(this.props.post)
-              ? 
-              <Fragment>
-                <Post id={this.props.id} history={this.props.history} match={this.props.match}/>
-                <Comments postKey={this.props.id} id={this.props.post.id} match={this.props.match}/>
-              </Fragment>
-              : 'Post não encontrado'
-            }
-          </Card.Body>
-        </Card>
-      </Col>
-    )
-  }
+const PostPage = props => {
+  return (
+    <Col>
+      <Card className='mb-2'>
+        <Card.Header>
+          <Card.Title className='mb-0'>
+            Post details
+          </Card.Title>
+        </Card.Header>
+        <Card.Body>
+          {(props.post)
+            ? 
+            <Fragment>
+              <Post id={props.id} history={props.history} match={props.match}/>
+              <Comments postKey={props.id} id={props.post.id} match={props.match}/>
+            </Fragment>
+            : 'Post não encontrado'
+          }
+        </Card.Body>
+      </Card>
+    </Col>
+  )
 }
 
 function mapStateToProps ({ posts }, routeData) {
